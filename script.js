@@ -12,6 +12,12 @@ var lifeLeft = ["*","*","*","*","*","*","*","*","*","*"];
     // score
 var score = 0;
 
+    // score count
+var scoreCnt = true;
+
+    // game Pause
+var gamePause = false;
+
 // define objects
     // canvas - game screen size
 var gameScreen = {
@@ -95,15 +101,19 @@ function setGame() {
     // draw enemies with loop
     for (var i = 0; i < 4; i++) {
         // draw enemies
-        ctx.fillStyle = (enemies[i].color);
-        ctx.beginPath();
-        ctx.arc(enemies[i].x,enemies[i].y,enemies[i].rad,0,Math.PI*2,false);
-        ctx.fill();
-        ctx.closePath();
+        if (gamePause == false) {
+            ctx.fillStyle = (enemies[i].color);
+            ctx.beginPath();
+            ctx.arc(enemies[i].x,enemies[i].y,enemies[i].rad,0,Math.PI*2,false);
+            ctx.fill();
+            ctx.closePath();
+        }
         
         // move enemies
-        enemies[i].x += enemies[i].speedX;
-        enemies[i].y += enemies[i].speedY;
+        if (gamePause == false) {
+            enemies[i].x += enemies[i].speedX;
+            enemies[i].y += enemies[i].speedY;
+        }
         
         // update enemies positions
         if (enemies[i].x >= gameScreen.width - enemies[i].rad) {
@@ -123,11 +133,15 @@ function setGame() {
         if (player.x >= enemies[i].x - enemies[i].rad && player.x <= enemies[i].x + enemies[i].rad) {
             if (player.y >= enemies[i].y - enemies[i].rad && player.y <= enemies[i].y + enemies[i].rad) {
                 if (lifeLeft.length >0) {
+                    enemies[i].speedX = -enemies[i].speedX
+                    enemies[i].speedY = -enemies[i].speedY
                     lifeLeft.splice(0,1);
                     document.getElementById("life").innerHTML = "LIFE POINT : " + lifeLeft.length;
                 }
                 else {
                     alert("GAME OVER. YOUR SCORE IS : " + score);
+                    gamePause = true;
+                    scoreCnt = false;
                 }
             }
         }
@@ -137,7 +151,12 @@ function setGame() {
 
 // count score
 function countScore() {
-    score++
+    if (scoreCnt) {
+        score++
+    }
+    else {
+        score = score;
+    }
     document.getElementById("score").innerHTML = "SCORE : " + score;
 };
 
