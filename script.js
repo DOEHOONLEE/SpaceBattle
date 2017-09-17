@@ -123,6 +123,8 @@ function setGame() {
         if (player.x >= enemies[i].x - enemies[i].rad && player.x <= enemies[i].x + enemies[i].rad) {
             if (player.y >= enemies[i].y - enemies[i].rad && player.y <= enemies[i].y + enemies[i].rad) {
                 if (lifeLeft.length >0) {
+                    enemies[i].speedX = -enemies[i].speedX
+                    enemies[i].speedY = -enemies[i].speedY
                     lifeLeft.splice(0,1);
                     document.getElementById("life").innerHTML = "LIFE POINT : " + lifeLeft.length;
                 }
