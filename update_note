@@ -1,9 +1,8 @@
 update note
 
-- pause the game
+- seems like mobile touch is now working, but no virtual joystick yet
 
 game is paused after game is over, but alert keeps popping up
 - reset after game over
 - add instruction
-- add keyboard controller
 - add items
