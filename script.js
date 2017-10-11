@@ -248,7 +248,6 @@ function countScore() {
 // initiate game
 function startGame() {
     var framesPerSec = 20;
-    e.preventDefault();
     setInterval(setGame, 800/framesPerSec);
     canvas.addEventListener("mousemove", function(e) {
         var mousePosition = calcMousePosition(e);
@@ -267,6 +266,9 @@ function startGame() {
         player.y = touchPos(e).y;
         controlX = touchPos(e).x;
         controlY = touchPos(e).y;
+        if (e.target == canvasCntrl) {
+            e.preventDefault();
+        }
     });
     calcMousePosition();
     calMousePos();
