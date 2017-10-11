@@ -2,6 +2,9 @@
 var canvas = document.getElementById("gameBoard");
 var ctx = canvas.getContext("2d");
 
+var canvasCntrl = document.getElementById("gameControl");
+var ctxCntrl = canvasCntrl.getContext("2d");
+
         // Math.floor(Math.random() * ((y-x)+1) + x);
 var enemySpeedX = Math.floor(Math.random()*6 +7);
 var enemySpeedY = Math.floor(Math.random()*6 +5);
@@ -18,12 +21,16 @@ var scoreCnt = true;
     // game Pause
 var gamePause = false;
 
+    // contoller
+var controlX = 250;
+var controlY = 250;
+
 // define objects
     // canvas - game screen size
 var gameScreen = {
     x: 0,
     y: 0,
-    width: 1000,
+    width: 500,
     height: 500,
     color: "black"
 };
@@ -88,6 +95,39 @@ function calcMousePosition(e) {
     };
 };
 
+    // move controller
+function calMousePos(e) {
+    var rect = canvasCntrl.getBoundingClientRect();
+    var root = document.documentElement;
+    var mouseX = e.clientX - rect.left - root.scrollLeft;
+    var mouseY = e.clientY - rect.top - root.scrollTop;
+    return {
+        x:mouseX,
+        y:mouseY
+    };
+};
+
+function touchPos(e) {
+    var rect = canvasCntrl.getBoundingClientRect();
+    var root = document.documentElement;
+    for (i=0; i<e.changedTouches.length;i++) {
+        var touchPosX = e.changedTouches[i].pageX - rect.left - root.scrollLeft;
+        var touchPosY = e.changedTouches[i].pageY - rect.top - root.scrollTop;
+    }
+    return {
+        x:touchPosX,
+        y:touchPosY
+    }
+}
+
+function controller() {
+    ctxCntrl.fillStyle = "lightgrey";
+    ctxCntrl.beginPath();
+    ctxCntrl.arc(controlX,controlY,60,0,Math.PI*2,false);
+    ctxCntrl.fill();
+    ctxCntrl.closePath();
+}
+
     // game start function
 function setGame() {
     // draw game screen
@@ -97,6 +137,19 @@ function setGame() {
     // draw player
     ctx.fillStyle = player.color;
     ctx.fillRect(player.x,player.y,player.width,player.height);
+    
+    // draw controller
+    ctxCntrl.fillStyle = "grey";
+    ctxCntrl.fillRect(0,0,500,500);
+    
+        // draw shade
+    ctxCntrl.fillStyle = "aliceblue";
+    ctxCntrl.beginPath();
+    ctxCntrl.arc(250,250,100,0,Math.PI*2,false);
+    ctxCntrl.fill();
+    ctxCntrl.closePath();
+    
+    controller();
     
     // draw enemies with loop
     for (var i = 0; i < 4; i++) {
@@ -111,8 +164,8 @@ function setGame() {
         
         // move enemies
         if (gamePause == false) {
-            enemies[i].x += enemies[i].speedX;
-            enemies[i].y += enemies[i].speedY;
+            enemies[i].x +=(enemies[i].speedX * score*0.001);
+            enemies[i].y += (enemies[i].speedY * score*0.001);
         }
         
         // update enemies positions
@@ -139,15 +192,47 @@ function setGame() {
                     document.getElementById("life").innerHTML = "LIFE POINT : " + lifeLeft.length;
                 }
                 else {
-                    alert("GAME OVER. YOUR SCORE IS : " + score);
-                    gamePause = true;
-                    scoreCnt = false;
+                    pauseGame();
                 }
             }
         }
     };
     setTimeout(countScore, 7);
 };
+
+// game control
+    // draw controller
+function controlPad() {
+    ctxCntrl.fillStyle = "grey";
+    ctxCntrl.fillRect(0,0,500,500);
+
+    function shade() {
+        ctxCntrl.fillStyle = "aliceblue";
+        ctxCntrl.beginPath();
+        ctxCntrl.arc(250,250,100,0,Math.PI*2,false);
+        ctxCntrl.fill();
+        ctxCntrl.closePath();
+    }
+    function controller() {
+        ctxCntrl.fillStyle = "lightgrey";
+        ctxCntrl.beginPath();
+        ctxCntrl.arc(controlX,controlY,60,0,Math.PI*2,false);
+        ctxCntrl.fill();
+        ctxCntrl.closePath();
+    }
+    shade();
+    controller();
+}
+
+controlPad();
+
+// pause game
+function pauseGame() {
+    gamePause = true;
+    scoreCnt = false;
+    enemies[i].speedX = 0;
+    enemies[i].speedY = 0;
+}
 
 // count score
 function countScore() {
@@ -169,5 +254,20 @@ function startGame() {
         player.x = mousePosition.x;
         player.y = mousePosition.y;
     });
+    canvasCntrl.addEventListener("mousemove", function(e) {
+        var mousePosition = calMousePos(e);
+        controlX = mousePosition.x;
+        controlY = mousePosition.y;
+        player.x = mousePosition.x;
+        player.y = mousePosition.y;
+    });
+    canvasCntrl.addEventListener("touchmove", function(e) {
+        player.x = touchPos(e).x;
+        player.y = touchPos(e).y;
+        controlX = touchPos(e).x;
+        controlY = touchPos(e).y;
+    });
     calcMousePosition();
+    calMousePos();
+    touchPos();
 };
