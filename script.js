@@ -26,8 +26,6 @@ var controlX;
 var controlY;
 
 // define objects
-<<<<<<< HEAD
-<<<<<<< HEAD
     // canvas - game screen size
 var gameScreen = {
     x: 0,
@@ -36,9 +34,7 @@ var gameScreen = {
     height: 500,
     color: "beige"
 };
-=======
-=======
->>>>>>> origin/master
+
 // canvas - game screen size
 var gameScreen;
 
@@ -82,10 +78,6 @@ function init() {
         color: "black"
     };
 
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
     // set game screen
     ctx.fillStyle = gameScreen.color;
     ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
@@ -123,8 +115,7 @@ function init() {
     ];
 
     // player
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 var player = {
     x: 30,
     y: 30,
@@ -132,23 +123,6 @@ var player = {
     height: 35,
     color: "white"
 };
-
-=======
-=======
->>>>>>> origin/master
-    player = {
-        x: 30,
-        y: 30,
-        width: 15,
-        height: 15,
-        color: "white"
-    };
-}
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-
 
     // move player with mouse
 function calcMousePosition(e) {
