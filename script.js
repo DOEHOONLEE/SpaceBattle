@@ -1,45 +1,96 @@
 // variables
-var canvas = document.getElementById("gameBoard");
-var ctx = canvas.getContext("2d");
+var canvas;
+var ctx;
 
-var canvasCntrl = document.getElementById("gameControl");
-var ctxCntrl = canvasCntrl.getContext("2d");
+var canvasCntrl;
+var ctxCntrl;
 
-        // Math.floor(Math.random() * ((y-x)+1) + x);
-var enemySpeedX = Math.floor(Math.random()*6 +7);
-var enemySpeedY = Math.floor(Math.random()*6 +5);
+// Math.floor(Math.random() * ((y-x)+1) + x);
+var enemySpeedX;
+var enemySpeedY;
 
-    // life point count
-var lifeLeft = ["*","*","*","*","*","*","*","*","*","*"];
+// life point count
+var lifeLeft;
 
-    // score
-var score = 0;
+// score
+var score;
 
-    // score count
-var scoreCnt = true;
+// score count
+var scoreCnt;
 
-    // game Pause
-var gamePause = false;
+// game Pause
+var gamePause;
 
-    // contoller
-var controlX = 250;
-var controlY = 250;
+// contoller
+var controlX;
+var controlY;
 
 // define objects
+<<<<<<< HEAD
+<<<<<<< HEAD
     // canvas - game screen size
 var gameScreen = {
     x: 0,
     y: 0,
     width: 500,
     height: 500,
-    color: "black"
+    color: "beige"
 };
-    // set game screen
-ctx.fillStyle = gameScreen.color;
-ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
+=======
+=======
+>>>>>>> origin/master
+// canvas - game screen size
+var gameScreen;
 
-    // circles - enemies to avoid
-var enemies = [
+// circles - enemies to avoid
+var enemies;
+
+// player
+var player;
+
+
+init()
+
+// functions
+
+function init() {
+    canvas = document.getElementById("gameBoard");
+    ctx = canvas.getContext("2d");
+
+    canvasCntrl = document.getElementById("gameControl");
+    ctxCntrl = canvasCntrl.getContext("2d");
+
+    enemySpeedX = Math.floor(Math.random()*6 +7);
+    enemySpeedY = Math.floor(Math.random()*6 +5);
+
+    lifeLeft = ["*","*","*","*","*","*","*","*","*","*"];
+
+    score = 0;
+
+    scoreCnt = true;
+
+    gamePause = false;
+
+    controlX = 250;
+    controlY = 250;
+
+    gameScreen = {
+        x: 0,
+        y: 0,
+        width: 500,
+        height: 500,
+        color: "black"
+    };
+
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+>>>>>>> origin/master
+    // set game screen
+    ctx.fillStyle = gameScreen.color;
+    ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
+
+    enemies = [
     {
         x: 20,
         y: 300,
@@ -69,19 +120,35 @@ var enemies = [
         speedX: enemySpeedX,
         speedY: 1.1 * enemySpeedY
     }
-];
+    ];
 
     // player
+<<<<<<< HEAD
+<<<<<<< HEAD
 var player = {
     x: 30,
     y: 30,
-    width: 15,
-    height: 15,
+    width: 35,
+    height: 35,
     color: "white"
 };
 
+=======
+=======
+>>>>>>> origin/master
+    player = {
+        x: 30,
+        y: 30,
+        width: 15,
+        height: 15,
+        color: "white"
+    };
+}
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+>>>>>>> origin/master
 
-// functions
 
     // move player with mouse
 function calcMousePosition(e) {
@@ -135,8 +202,14 @@ function setGame() {
     ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
     
     // draw player
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x,player.y,player.width,player.height);
+    //ctx.fillStyle = player.color;
+    //ctx.fillRect(player.x,player.y,player.width,player.height);
+    
+    var spaceship = new Image();
+    spaceship.src = 'nightraiderfixed.png';
+    
+    
+    ctx.drawImage(spaceship, player.x, player.y, player.width, player.height);
     
     // draw controller
     ctxCntrl.fillStyle = "grey";
@@ -247,6 +320,8 @@ function countScore() {
 
 // initiate game
 function startGame() {
+    init();
+
     var framesPerSec = 20;
     setInterval(setGame, 800/framesPerSec);
     canvas.addEventListener("mousemove", function(e) {
