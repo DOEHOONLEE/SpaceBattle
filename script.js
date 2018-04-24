@@ -26,6 +26,15 @@ var controlX;
 var controlY;
 
 // define objects
+    // canvas - game screen size
+var gameScreen = {
+    x: 0,
+    y: 0,
+    width: 500,
+    height: 500,
+    color: "beige"
+};
+
 // canvas - game screen size
 var gameScreen;
 
@@ -106,15 +115,14 @@ function init() {
     ];
 
     // player
-    player = {
-        x: 30,
-        y: 30,
-        width: 15,
-        height: 15,
-        color: "white"
-    };
-}
 
+var player = {
+    x: 30,
+    y: 30,
+    width: 35,
+    height: 35,
+    color: "white"
+};
 
     // move player with mouse
 function calcMousePosition(e) {
@@ -168,8 +176,14 @@ function setGame() {
     ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
     
     // draw player
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x,player.y,player.width,player.height);
+    //ctx.fillStyle = player.color;
+    //ctx.fillRect(player.x,player.y,player.width,player.height);
+    
+    var spaceship = new Image();
+    spaceship.src = 'nightraiderfixed.png';
+    
+    
+    ctx.drawImage(spaceship, player.x, player.y, player.width, player.height);
     
     // draw controller
     ctxCntrl.fillStyle = "grey";
