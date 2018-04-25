@@ -25,6 +25,10 @@ var gamePause;
 var controlX;
 var controlY;
 
+// player's collision position adjusted
+var playerPosAdjustX;
+var playerPosAdjustY;
+
 // define objects
     // canvas - game screen size
 var gameScreen = {
@@ -45,7 +49,7 @@ var enemies;
 var player;
 
 
-init()
+init();
 
 // functions
 
@@ -70,6 +74,7 @@ function init() {
     controlX = 250;
     controlY = 250;
 
+    /*
     gameScreen = {
         x: 0,
         y: 0,
@@ -77,7 +82,7 @@ function init() {
         height: 500,
         color: "black"
     };
-
+    */
     // set game screen
     ctx.fillStyle = gameScreen.color;
     ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
@@ -111,9 +116,8 @@ function init() {
         color: "yellow",
         speedX: enemySpeedX,
         speedY: 1.1 * enemySpeedY
-    }
-    ];
-
+    }];
+}
     // player
 
 var player = {
@@ -230,8 +234,11 @@ function setGame() {
         }
         
         // collision check
-        if (player.x >= enemies[i].x - enemies[i].rad && player.x <= enemies[i].x + enemies[i].rad) {
-            if (player.y >= enemies[i].y - enemies[i].rad && player.y <= enemies[i].y + enemies[i].rad) {
+        playerPosAdjustX = player.x + 17;
+        playerPosAdjustY = player.y + 17;
+        
+        if (playerPosAdjustX >= enemies[i].x - enemies[i].rad && playerPosAdjustX <= enemies[i].x + enemies[i].rad) {
+            if (playerPosAdjustY >= enemies[i].y - enemies[i].rad && playerPosAdjustY <= enemies[i].y + enemies[i].rad) {
                 if (lifeLeft.length >0) {
                     enemies[i].speedX = -enemies[i].speedX
                     enemies[i].speedY = -enemies[i].speedY
@@ -295,13 +302,16 @@ function countScore() {
 // initiate game
 function startGame() {
     init();
+    
+    playerPosAdjustX = player.x + 17;
+    playerPosAdjustY = player.y + 17;
 
     var framesPerSec = 20;
     setInterval(setGame, 800/framesPerSec);
     canvas.addEventListener("mousemove", function(e) {
         var mousePosition = calcMousePosition(e);
-        player.x = mousePosition.x;
-        player.y = mousePosition.y;
+        player.x = mousePosition.x - 17;
+        player.y = mousePosition.y + 3;
     });
     canvasCntrl.addEventListener("mousemove", function(e) {
         var mousePosition = calMousePos(e);
