@@ -9,9 +9,6 @@ var ctxCntrl;
 var enemySpeedX;
 var enemySpeedY;
 
-// life point count
-var lifeLeft;
-
 // score
 var score;
 
@@ -63,8 +60,6 @@ function init() {
     enemySpeedX = Math.floor(Math.random()*6 +7);
     enemySpeedY = Math.floor(Math.random()*6 +5);
 
-    lifeLeft = ["*","*","*","*","*","*","*","*","*","*"];
-
     score = 0;
 
     scoreCnt = true;
@@ -74,15 +69,6 @@ function init() {
     controlX = 250;
     controlY = 250;
 
-    /*
-    gameScreen = {
-        x: 0,
-        y: 0,
-        width: 500,
-        height: 500,
-        color: "black"
-    };
-    */
     // set game screen
     ctx.fillStyle = gameScreen.color;
     ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
@@ -94,28 +80,32 @@ function init() {
         rad: 15,
         color: "red",
         speedX: 2 * enemySpeedX,
-        speedY: enemySpeedY
+        speedY: enemySpeedY,
+        lifepoint : 100
     }, {
         x: 50,
         y: 100,
         rad: 20,
         color: "green",
         speedX: enemySpeedX,
-        speedY: 1.2 * enemySpeedY
+        speedY: 1.2 * enemySpeedY,
+        lifepoint: 150
     }, {
         x: 350,
         y: 300,
         rad: 25,
         color: "blue",
         speedX: 1.3 * enemySpeedX,
-        speedY: enemySpeedY
+        speedY: enemySpeedY,
+        lifepoint: 200
     }, {
         x: 200,
         y: 70,
         rad: 30,
         color: "yellow",
         speedX: enemySpeedX,
-        speedY: 1.1 * enemySpeedY
+        speedY: 1.1 * enemySpeedY,
+        lifepoint: 250
     }];
 }
     // player
@@ -125,7 +115,9 @@ var player = {
     y: 30,
     width: 35,
     height: 35,
-    color: "white"
+    color: "white",
+    lifepoint: 200,
+    attackpoint: 20
 };
 
     // move player with mouse
@@ -173,36 +165,8 @@ function controller() {
     ctxCntrl.closePath();
 }
 
-    // game start function
-function setGame() {
-    // draw game screen
-    ctx.fillStyle = gameScreen.color;
-    ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
-    
-    // draw player
-    //ctx.fillStyle = player.color;
-    //ctx.fillRect(player.x,player.y,player.width,player.height);
-    
-    var spaceship = new Image();
-    spaceship.src = 'nightraiderfixed.png';
-    
-    
-    ctx.drawImage(spaceship, player.x, player.y, player.width, player.height);
-    
-    // draw controller
-    ctxCntrl.fillStyle = "grey";
-    ctxCntrl.fillRect(0,0,500,500);
-    
-        // draw shade
-    ctxCntrl.fillStyle = "aliceblue";
-    ctxCntrl.beginPath();
-    ctxCntrl.arc(250,250,100,0,Math.PI*2,false);
-    ctxCntrl.fill();
-    ctxCntrl.closePath();
-    
-    controller();
-    
-    // draw enemies with loop
+    // FUNCTION - DRAW ENEMIES
+function drawEnemies() {
     for (var i = 0; i < 4; i++) {
         // draw enemies
         if (gamePause == false) {
@@ -239,11 +203,11 @@ function setGame() {
         
         if (playerPosAdjustX >= enemies[i].x - enemies[i].rad && playerPosAdjustX <= enemies[i].x + enemies[i].rad) {
             if (playerPosAdjustY >= enemies[i].y - enemies[i].rad && playerPosAdjustY <= enemies[i].y + enemies[i].rad) {
-                if (lifeLeft.length >0) {
+                if (player.lifepoint >0) {
                     enemies[i].speedX = -enemies[i].speedX
                     enemies[i].speedY = -enemies[i].speedY
-                    lifeLeft.splice(0,1);
-                    document.getElementById("life").innerHTML = "LIFE POINT : " + lifeLeft.length;
+                    player.lifepoint--;
+                    document.getElementById("life").innerHTML = "LIFE POINT : " + player.lifepoint;
                 }
                 else {
                     pauseGame();
@@ -251,6 +215,41 @@ function setGame() {
             }
         }
     };
+}
+
+
+    // game start function
+function setGame() {
+    // draw game screen
+    ctx.fillStyle = gameScreen.color;
+    ctx.fillRect(gameScreen.x,gameScreen.y,gameScreen.width,gameScreen.height);
+    
+    // draw player
+    //ctx.fillStyle = player.color;
+    //ctx.fillRect(player.x,player.y,player.width,player.height);
+    
+    var spaceship = new Image();
+    spaceship.src = 'nightraiderfixed.png';
+    
+    
+    ctx.drawImage(spaceship, player.x, player.y, player.width, player.height);
+    
+    // draw controller
+    ctxCntrl.fillStyle = "grey";
+    ctxCntrl.fillRect(0,0,500,500);
+    
+        // draw shade
+    ctxCntrl.fillStyle = "aliceblue";
+    ctxCntrl.beginPath();
+    ctxCntrl.arc(250,250,100,0,Math.PI*2,false);
+    ctxCntrl.fill();
+    ctxCntrl.closePath();
+    
+    controller();
+    
+    // draw enemies
+    drawEnemies();
+    
     setTimeout(countScore, 7);
 };
 

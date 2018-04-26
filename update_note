@@ -2,6 +2,12 @@ update note
 
 - seems like mobile touch is now working, but no virtual joystick yet
 
+- not mobile friendly
+
+- replace life point array for the player AND add lifepoints to player/enemies as a form of JSON
+
+- add player weapon
+
 game is paused after game is over, but alert keeps popping up
 - add instruction
 - add items
